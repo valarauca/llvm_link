@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `llvm_link` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, llvm_link">
+
+    <title>llvm_link - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'></p><script>window.sidebarCurrent = {name: 'llvm_link', ty: 'mod', relpath: '../'};</script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>llvm_link</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/llvm_link/lib.rs.html#1-87' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>llvm_link</p>
+
+<p>These are bindings to the LLVM&#39;s <code>libLTO</code> <strong>L</strong>ink <strong>T</strong>ime <strong>O</strong>ptimization library.</p>
+
+<p>This crate currently assumes you are locally using LLVMv3.9.1 It was originally
+compiled on Fedora25 AMD64, so you may have trouble getting it to work
+on other platforms. Windows and OSX is not yet supported.
+To build on Fedora25 you will need to install.</p>
+
+<pre><code class="language-bash">sudo dnf install gcc gcc-c++ llvm-devel redhat-rpm-config ncurses-devel
+</code></pre>
+
+<p>To use in a Rust Project</p>
+
+<pre class='rust rust-example-rendered'>
+[<span class='ident'>dependencies</span>]
+<span class='ident'>llvm_link</span> <span class='op'>=</span> <span class='string'>&quot;0.0.1&quot;</span></pre>
+
+<p># Examples:</p>
+
+<p>To get the local libLTO version:</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>llvm_link</span>::<span class='ident'>get_lto_version</span>;
+
+ <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>,<span class='ident'>get_lto_version</span>());</pre>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Linker.html'
+                                  title='llvm_link::Linker'>Linker</a></td>
+                           <td class='docblock-short'>
+                                <p>Used to construct the Linker</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ObjFile.html'
+                                  title='llvm_link::ObjFile'>ObjFile</a></td>
+                           <td class='docblock-short'>
+                                <p>Object Files loaded from the File System into LLVM directly</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Object.html'
+                                  title='llvm_link::Object'>Object</a></td>
+                           <td class='docblock-short'>
+                                <p>Link Time Optimization Object</p>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.PIC.html'
+                                  title='llvm_link::PIC'>PIC</a></td>
+                           <td class='docblock-short'>
+                                <p>CodeGeneration Model</p>
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.LinkerObject.html'
+                                  title='llvm_link::LinkerObject'>LinkerObject</a></td>
+                           <td class='docblock-short'>
+                                <p>Unifying properties that all linker objects posses.</p>
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.get_error_msg.html'
+                                  title='llvm_link::get_error_msg'>get_error_msg</a></td>
+                           <td class='docblock-short'>
+                                <p>Get the LTO error message</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.get_lto_api_version.html'
+                                  title='llvm_link::get_lto_api_version'>get_lto_api_version</a></td>
+                           <td class='docblock-short'>
+                                <p>Get libLTO API version</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.get_lto_version.html'
+                                  title='llvm_link::get_lto_version'>get_lto_version</a></td>
+                           <td class='docblock-short'>
+                                <p>Get the LTO version</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "llvm_link";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

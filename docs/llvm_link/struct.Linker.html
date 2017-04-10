@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Linker` struct in crate `llvm_link`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Linker">
+
+    <title>llvm_link::Linker - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>llvm_link</a></p><script>window.sidebarCurrent = {name: 'Linker', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>llvm_link</a>::<wbr><a class='struct' href=''>Linker</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/llvm_link/merge.rs.html#99-103' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Linker { /* fields omitted */ }</pre><div class='docblock'><p>Used to construct the Linker</p>
+
+<p>This builds an instance of, and can execute the LLVM libLTO linker</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>llvm_link</span>::{<span class='ident'>Linker</span>,<span class='ident'>PIC</span>,<span class='ident'>ObjFile</span>,<span class='ident'>Object</span>};
+
+<span class='comment'>// build the linker(s)</span>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>linker_stage1</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>Linker</span>::<span class='ident'>new</span>(<span class='bool-val'>true</span>,<span class='bool-val'>true</span>,<span class='bool-val'>false</span>,<span class='ident'>PIC</span>::<span class='ident'>default</span>(),<span class='kw-2'>&amp;</span>[<span class='string'>&quot;foo&quot;</span>, <span class='string'>&quot;bar&quot;</span>]) {
+    <span class='prelude-val'>Ok</span>(<span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='ident'>x</span>,
+    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Could not construct linker. Here&#39;s why: {}&quot;</span>,<span class='ident'>e</span>)
+};
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>linker_stage2</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>Linker</span>::<span class='ident'>new</span>(<span class='bool-val'>false</span>,<span class='bool-val'>false</span>,<span class='bool-val'>true</span>,<span class='ident'>PIC</span>::<span class='ident'>default</span>(),<span class='kw-2'>&amp;</span>[]) {
+    <span class='prelude-val'>Ok</span>(<span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='ident'>x</span>,
+    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Could not construct linker. Here&#39;s why: {}&quot;</span>,<span class='ident'>e</span>)
+};
+
+<span class='comment'>//load files</span>
+<span class='kw'>let</span> <span class='ident'>obj1</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>ObjFile</span>::<span class='ident'>new</span>(<span class='string'>&quot;/home/me/my_project/my_file.o&quot;</span>) {
+    <span class='prelude-val'>Ok</span>(<span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='ident'>x</span>,
+    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;The LLVM can&#39;t load my_file.o Here&#39;s why: {}&quot;</span>,<span class='ident'>e</span>)
+};
+<span class='kw'>let</span> <span class='ident'>obj2</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>ObjFile</span>::<span class='ident'>new</span>(<span class='string'>&quot;/home/me/my_project/my_other_file.o&quot;</span>) {
+    <span class='prelude-val'>Ok</span>(<span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='ident'>x</span>,
+    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;The LLVM can&#39;t load my_other_file.o Here&#39;s why: {}&quot;</span>,<span class='ident'>e</span>)
+};
+<span class='kw'>let</span> <span class='ident'>obj3</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>ObjFile</span>::<span class='ident'>new</span>(<span class='string'>&quot;/home/me/my_project/my_final_file.o&quot;</span>) {
+    <span class='prelude-val'>Ok</span>(<span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='ident'>x</span>,
+    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;The LLVM can&#39;t load my_file_file.o Here&#39;s why: {}&quot;</span>,<span class='ident'>e</span>)
+};
+
+<span class='comment'>// add the files</span>
+<span class='ident'>linker_stage1</span>.<span class='ident'>add_file</span>(<span class='ident'>obj1</span>);
+<span class='ident'>linker_stage2</span>.<span class='ident'>add_file</span>(<span class='ident'>obj2</span>);
+
+<span class='comment'>// compile in memory</span>
+<span class='kw'>let</span> <span class='ident'>stage1_obj</span>: <span class='ident'>Object</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>linker_stage1</span>.<span class='ident'>link_to_mem</span>() {
+    <span class='prelude-val'>Ok</span>(<span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='ident'>x</span>,
+    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Link error in stage 1: {}&quot;</span>,<span class='ident'>e</span>)
+};
+
+<span class='comment'>// set up stage 2</span>
+<span class='ident'>linker_stage2</span>.<span class='ident'>add_buffer</span>(<span class='ident'>stage1_obj</span>);
+<span class='ident'>linker_stage2</span>.<span class='ident'>add_file</span>(<span class='ident'>obj3</span>);
+
+<span class='comment'>// release output</span>
+<span class='kw'>match</span> <span class='ident'>linker_stage2</span>.<span class='ident'>link_to_file</span>(<span class='string'>&quot;/home/me/my_project/my_project.a&quot;</span>) {
+    <span class='prelude-val'>Ok</span>(_) <span class='op'>=&gt;</span> { },
+    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Link error in stage 2: {}&quot;</span>, <span class='ident'>e</span>)
+};</pre>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../llvm_link/struct.Linker.html' title='llvm_link::Linker'>Linker</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/llvm_link/merge.rs.html#109-201' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(keep_dwarf: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; embed_use_list: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; should_internalize: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pic_mode: <a class='enum' href='../llvm_link/enum.PIC.html' title='llvm_link::PIC'>PIC</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; keep_symbols: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a>&amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../llvm_link/struct.Linker.html' title='llvm_link::Linker'>Linker</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code></span></h4>
+<div class='docblock'><p>Construct a new Linker</p>
+
+<p>Contains <em>all</em> the options that are useful for this</p>
+
+<ul>
+<li><code>keep_dwarf</code>: DebugModel. If <code>true</code> DWARF symbols are preserved</li>
+<li><code>embed_use_list</code>: Should the use list symbols be embedded within the output. This should
+be true for all but the last binary</li>
+<li><code>should_internalize</code>: I have zero clue what this does. It was removed in LLVMv4.0 here is
+a discussion why <a href="https://groups.google.com/forum/#!topic/llvm-dev/EMKIiIqxOo4">linky</a> </li>
+<li><code>pic mode</code>: I think this has to with Position Independent Code (not 100% sure)</li>
+<li><code>keep_symbols</code>: Force the linker to preserve these symbols</li>
+</ul>
+</div><h4 id='method.add_file' class='method'><span id='add_file.v' class='invisible'><code>fn <a href='#method.add_file' class='fnname'>add_file</a>(&amp;mut self, object_file: <a class='struct' href='../llvm_link/struct.ObjFile.html' title='llvm_link::ObjFile'>ObjFile</a>)</code></span></h4>
+<div class='docblock'><p>Link an Object File</p>
+</div><h4 id='method.add_buffer' class='method'><span id='add_buffer.v' class='invisible'><code>fn <a href='#method.add_buffer' class='fnname'>add_buffer</a>(&amp;mut self, object_buffer: <a class='struct' href='../llvm_link/struct.Object.html' title='llvm_link::Object'>Object</a>)</code></span></h4>
+<div class='docblock'><p>Link to a Object File (in a memory buffer)</p>
+</div><h4 id='method.link_to_mem' class='method'><span id='link_to_mem.v' class='invisible'><code>fn <a href='#method.link_to_mem' class='fnname'>link_to_mem</a>(self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../llvm_link/struct.Object.html' title='llvm_link::Object'>Object</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code></span></h4>
+<div class='docblock'><p>Complete linking, return a memory buffer</p>
+</div><h4 id='method.link_to_file' class='method'><span id='link_to_file.v' class='invisible'><code>fn <a href='#method.link_to_file' class='fnname'>link_to_file</a>&lt;P:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>&gt;&gt;(self, path: P) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code></span></h4>
+<div class='docblock'><p>Complete linking, write to a file</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../llvm_link/struct.Linker.html' title='llvm_link::Linker'>Linker</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/llvm_link/merge.rs.html#104-108' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.drop' class='method'><span id='drop.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></span></h4>
+<div class='docblock'><p>A method called when the value goes out of scope. <a href="https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop">Read more</a></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "llvm_link";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

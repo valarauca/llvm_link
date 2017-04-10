@@ -1,0 +1,17 @@
+[package]
+name = "llvm_link"
+version = "0.0.1"
+authors = ["William Cody Laeder <codylaeder@gmail.com>"]
+license = "MIT/Apache-2.0"
+readme = "README.md"
+keywords = ["llvm","LTO", "libLTO"]
+repository = "https://github.com/valarauca/llvm_link"
+homepage = "https://github.com/valarauca/llvm_link"
+documentation = "https://valarauca.github.io/llvm_link/llvm_link/index.html"
+description = """
+High level bindings to the LLVM v3.9.1 release of libLTO, for building
+a linker with.
+"""
+
+[dependencies]
+llvm-sys = "39.0.1"
